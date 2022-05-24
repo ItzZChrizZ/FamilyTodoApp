@@ -1,4 +1,5 @@
 import 'package:familytodoapp/components/homepage/taskcardwidget.dart';
+import 'package:familytodoapp/pages/taskpage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -14,26 +15,63 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 24.0,
-                horizontal: 24.0,
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24.0,
+          ),
+          color: Colors.white30,
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(
+                      bottom: 32.0,
+                      top: 32.0,
+                    ),
+                    child: const Icon(
+                      FontAwesomeIcons.apple,
+                      size: 32,
+                    ),
+                  ),
+                  Expanded(
+                      child: ListView(
+                    children: const [
+                      TaskCardWidget(),
+                      TaskCardWidget(),
+                      TaskCardWidget(),
+                      TaskCardWidget(),
+                      TaskCardWidget(),
+                      TaskCardWidget(),
+                    ],
+                  ))
+                ],
               ),
-              child: Icon(
-                FontAwesomeIcons.apple,
-                size: 36,
+              Positioned(
+                bottom: 24.0,
+                right: 0.0,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TaskPage()));
+                  },
+                  child: const SizedBox(
+                    height: 60.0,
+                    width: 60.0,
+                    child: Icon(
+                      FontAwesomeIcons.circlePlus,
+                      color: Colors.blue,
+                      size: 48,
+                    ),
+                  ),
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 24.0,
-              ),
-              child: TaskCardWidget(),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
