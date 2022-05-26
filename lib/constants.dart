@@ -7,10 +7,16 @@ class Constants {
   static TextStyle regulerHeaderRed = const TextStyle(
       fontSize: 20, color: Colors.red, fontWeight: FontWeight.bold);
 
-  static TextStyle regulerLine = const TextStyle(
+  static TextStyle regulerText = const TextStyle(
     fontSize: 18,
     color: Colors.black,
     height: 1.5,
+  );
+
+  static TextStyle regulerTodo = const TextStyle(
+    fontSize: 16,
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
   );
 
   static Color backgroundColor = const Color.fromRGBO(14, 25, 58, 1);

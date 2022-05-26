@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Expanded(
                       child: ListView(
+                        
                     children: const [
                       TaskCardWidget(),
                       TaskCardWidget(),
@@ -59,13 +60,17 @@ class _HomePageState extends State<HomePage> {
                         MaterialPageRoute(
                             builder: (context) => const TaskPage()));
                   },
-                  child: const SizedBox(
+                  child: Container(
                     height: 60.0,
                     width: 60.0,
-                    child: Icon(
-                      FontAwesomeIcons.circlePlus,
+                    decoration: BoxDecoration(
                       color: Colors.blue,
-                      size: 48,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: const Icon(
+                      FontAwesomeIcons.plus,
+                      color: Colors.white,
+                      size: 36,
                     ),
                   ),
                 ),
