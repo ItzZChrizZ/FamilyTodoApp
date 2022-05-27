@@ -1,5 +1,7 @@
 import 'package:familytodoapp/components/homepage/taskcardwidget.dart';
 import 'package:familytodoapp/constants.dart';
+import 'package:familytodoapp/database/database_helper.dart';
+import 'package:familytodoapp/models/task_model.dart';
 import 'package:flutter/material.dart';
 
 class TaskPage extends StatefulWidget {
@@ -40,6 +42,15 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                       Expanded(
                         child: TextField(
+                          onSubmitted: (value) async {
+                            if (value != "") {
+                              DataBaseHelper _dbHelper = DataBaseHelper();
+
+                              Task _newTask = Task(title: value);
+
+                              await _dbHelper.insertTask(_newTask);
+                            }
+                          },
                           decoration: InputDecoration(
                             hintText: "Enter Task Title",
                             hintStyle: Constants.regulerHeader,

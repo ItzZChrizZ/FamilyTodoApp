@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 import 'package:familytodoapp/components/homepage/taskcardwidget.dart';
+import 'package:familytodoapp/database/database_helper.dart';
 import 'package:familytodoapp/pages/taskpage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final DataBaseHelper _dbHelper = DataBaseHelper();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,17 +41,24 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Expanded(
-                      child: ListView(
-                        
-                    children: const [
-                      TaskCardWidget(),
-                      TaskCardWidget(),
-                      TaskCardWidget(),
-                      TaskCardWidget(),
-                      TaskCardWidget(),
-                      TaskCardWidget(),
-                    ],
-                  ))
+                    child: FutureBuilder(
+                      future: _dbHelper.getTasks(),
+                      builder: (context, snapshot) {
+                        return ListView.builder(
+                          itemCount: (snapshot.data as Map).length,
+                          itemBuilder: (context, index) {
+                            if (snapshot.hasData) {
+                              var myData = snapshot.data as List;
+                              return TaskCardWidget(
+                                title: myData[index].title,
+                              );
+                            }
+                            return const CircularProgressIndicator();
+                          },
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
               Positioned(
@@ -56,9 +67,12 @@ class _HomePageState extends State<HomePage> {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const TaskPage()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const TaskPage()))
+                        .then((value) => {
+                              setState(() {}),
+                            });
                   },
                   child: Container(
                     height: 60.0,
