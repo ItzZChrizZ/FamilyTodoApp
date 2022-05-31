@@ -3,6 +3,7 @@
 import 'package:familytodoapp/components/homepage/todo-list-widget.dart';
 import 'package:familytodoapp/constants.dart';
 import 'package:familytodoapp/main.dart';
+import 'package:familytodoapp/pages/completed-page.dart';
 import 'package:familytodoapp/pages/todo-page.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final tabs = [
       const TodoListWidget(),
-      Container(),
+      const CompletedListWidget(),
     ];
     return Scaffold(
       appBar: AppBar(

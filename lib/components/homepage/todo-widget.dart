@@ -4,6 +4,7 @@ import 'package:familytodoapp/constants.dart';
 import 'package:familytodoapp/database/provider.dart';
 import 'package:familytodoapp/models/todo.dart';
 import 'package:familytodoapp/models/utils.dart';
+import 'package:familytodoapp/pages/edit-todo-page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +26,7 @@ class TodoWidget extends StatelessWidget {
             dismissible: DismissiblePane(onDismissed: () {}),
             children: [
               SlidableAction(
-                onPressed: (context) => {},
+                onPressed: (context) => editTodo(context, todo),
                 backgroundColor: Colors.green,
                 icon: Icons.edit,
                 label: "Edit",
@@ -48,47 +49,53 @@ class TodoWidget extends StatelessWidget {
         ),
       );
 
-  Widget buildTodo(BuildContext context) => Container(
-        decoration: BoxDecoration(
-          color: Constants.backgroundColor,
-        ),
-        padding: const EdgeInsets.all(
-          20.0,
-        ),
-        child: Row(
-          children: [
-            Checkbox(
-              activeColor: Constants.checkBoxColor,
-              checkColor: Constants.backgroundColor,
-              value: todo.isDone,
-              onChanged: (_) {
-                final provider =
-                    Provider.of<TodosProvider>(context, listen: false);
-                final isDone = provider.toggleTodoStatus(todo);
-              },
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    todo.title,
-                    style: Constants.title,
-                  ),
-                  if (todo.description.isNotEmpty)
-                    Container(
-                      margin: const EdgeInsets.only(
-                        top: 4.0,
-                      ),
-                      child: Text(
-                        todo.description,
-                        style: Constants.subTitle,
-                      ),
-                    )
-                ],
+  Widget buildTodo(BuildContext context) => GestureDetector(
+        onTap: () => editTodo(context, todo),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Constants.backgroundColor,
+          ),
+          padding: const EdgeInsets.all(
+            20.0,
+          ),
+          child: Row(
+            children: [
+              Checkbox(
+                activeColor: Constants.checkBoxColor,
+                checkColor: Constants.backgroundColor,
+                value: todo.isDone,
+                onChanged: (_) {
+                  final provider =
+                      Provider.of<TodosProvider>(context, listen: false);
+                  final isDone = provider.toggleTodoStatus(todo);
+
+                  Utils.showSnackbar(context,
+                      isDone ? "Task compeleted" : "Task marked incomplete");
+                },
               ),
-            )
-          ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      todo.title,
+                      style: Constants.title,
+                    ),
+                    if (todo.description.isNotEmpty)
+                      Container(
+                        margin: const EdgeInsets.only(
+                          top: 4.0,
+                        ),
+                        child: Text(
+                          todo.description,
+                          style: Constants.subTitle,
+                        ),
+                      )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       );
 
@@ -100,4 +107,12 @@ class TodoWidget extends StatelessWidget {
       "Deleted the Task",
     );
   }
+
+  editTodo(BuildContext context, Todo todo) => Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditTodoPage(
+          todo: todo,
+        ),
+      ));
 }
