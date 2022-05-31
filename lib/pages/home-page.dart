@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
               Icons.done,
               size: 28.0,
             ),
-            label: "Todos",
+            label: "Competed Todos",
           ),
         ],
       ),
