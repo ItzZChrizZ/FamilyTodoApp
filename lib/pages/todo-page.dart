@@ -2,7 +2,6 @@
 
 import 'package:familytodoapp/constants.dart';
 import 'package:familytodoapp/database/provider.dart';
-import 'package:familytodoapp/main.dart';
 import 'package:familytodoapp/models/todo-form-widget.dart';
 import 'package:familytodoapp/models/todo.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +26,8 @@ class _TodoPageState extends State<TodoPage> {
             backgroundColor: Constants.appBarColor,
             centerTitle: true,
             title: Text(
-              MyApp.title,
+              "New Todo",
+              style: Constants.titleWhite,
             ),
           ),
           body: Column(
@@ -45,7 +45,8 @@ class _TodoPageState extends State<TodoPage> {
 
   void addTodo() {
     final isValid = _formKey.currentState!.validate();
-    if (isValid) {
+
+    if (!isValid) {
       return;
     } else {
       final todo = Todo(
@@ -54,6 +55,7 @@ class _TodoPageState extends State<TodoPage> {
         description: description,
         createdTime: DateTime.now(),
       );
+
       final provider = Provider.of<TodosProvider>(context, listen: false);
       provider.addTodo(todo);
 
