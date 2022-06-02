@@ -1,9 +1,9 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, sized_box_for_whitespace
 
 import 'package:familytodoapp/constants.dart';
 import 'package:flutter/material.dart';
 
-class TodoFormWidget extends StatelessWidget {
+class TodoFormWidget extends StatefulWidget {
   final String? title;
   final String? description;
   final ValueChanged<String> onChangedTitle;
@@ -19,6 +19,15 @@ class TodoFormWidget extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<TodoFormWidget> createState() => _TodoFormWidgetState();
+}
+
+class _TodoFormWidgetState extends State<TodoFormWidget> {
+  DateTime selectedDate = DateTime.now();
+  final firstDate = DateTime(2021, 1);
+  final lastDate = DateTime(2030, 12);
+
+  @override
   Widget build(BuildContext context) => SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -31,7 +40,29 @@ class TodoFormWidget extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
+            Text(
+              "$selectedDate",
+              style: Constants.title,
+            ),
             buildSaveButton(),
+            const SizedBox(
+              height: 10.0,
+            ),
+            Container(
+              height: 45.0,
+              width: 150.0,
+              child: ElevatedButton(
+                onPressed: () => _openDatePicker(context),
+                child: Text(
+                  "DateTime",
+                  style: Constants.regulerTextWhite,
+                ),
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Constants.appBarColor),
+                ),
+              ),
+            ),
           ],
         ),
       );
@@ -42,8 +73,8 @@ class TodoFormWidget extends StatelessWidget {
         ),
         child: TextFormField(
           maxLines: 1,
-          initialValue: title,
-          onChanged: onChangedTitle,
+          initialValue: widget.title,
+          onChanged: widget.onChangedTitle,
           validator: (title) {
             if (title!.isEmpty) {
               return "The title cannot be empty.";
@@ -64,8 +95,8 @@ class TodoFormWidget extends StatelessWidget {
         ),
         child: TextFormField(
           maxLines: 3,
-          onChanged: onChangedDescription,
-          initialValue: description,
+          onChanged: widget.onChangedDescription,
+          initialValue: widget.description,
           decoration: InputDecoration(
             border: const UnderlineInputBorder(),
             labelText: "Description",
@@ -76,6 +107,7 @@ class TodoFormWidget extends StatelessWidget {
 
   buildSaveButton() => Padding(
         padding: const EdgeInsets.symmetric(
+          vertical: 10.0,
           horizontal: 18.0,
         ),
         child: Container(
@@ -88,7 +120,7 @@ class TodoFormWidget extends StatelessWidget {
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Constants.appBarColor),
             ),
-            onPressed: onSavedTodo,
+            onPressed: widget.onSavedTodo,
             child: Text(
               "Save",
               style: Constants.titleWhite,
@@ -96,4 +128,18 @@ class TodoFormWidget extends StatelessWidget {
           ),
         ),
       );
+
+  _openDatePicker(BuildContext context) async {
+    final DateTime? date = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: firstDate,
+      lastDate: lastDate,
+    );
+    if (date != null) {
+      setState(() {
+        selectedDate = date;
+      });
+    }
+  }
 }

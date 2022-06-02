@@ -20,6 +20,11 @@ class Constants {
     color: Color.fromRGBO(54, 69, 79, 1),
     height: 1.5,
   );
+  static TextStyle regulerTextWhite = const TextStyle(
+    fontSize: 18,
+    color: Color.fromRGBO(245, 245, 245, 1),
+    height: 1.5,
+  );
 
   static TextStyle subTitle = const TextStyle(
     fontSize: 16,
@@ -32,5 +37,4 @@ class Constants {
   static Color navBarColor = const Color.fromRGBO(54, 69, 79, 1);
   static Color appBarColor = const Color.fromRGBO(54, 69, 79, 1);
   static Color checkBoxColor = const Color.fromARGB(255, 101, 54, 220);
-  
 }
