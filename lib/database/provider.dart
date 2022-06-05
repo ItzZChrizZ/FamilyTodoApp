@@ -3,28 +3,7 @@ import 'package:flutter/material.dart';
 
 class TodosProvider extends ChangeNotifier {
   // ignore: prefer_final_fields
-  List<Todo> _todos = [
-    Todo(
-      createdTime: DateTime.now(),
-      title: "Walk the Dog ",
-      id: '',
-    ),
-    Todo(
-      createdTime: DateTime.now(),
-      title: "Walk the Dog ",
-      id: '',
-    ),
-    Todo(
-      createdTime: DateTime.now(),
-      title: "Walk the Dog ",
-      id: '',
-    ),
-    Todo(
-      createdTime: DateTime.now(),
-      title: "Walk the Dog ",
-      id: '',
-    ),
-  ];
+  List<Todo> _todos = [];
 
   List<Todo> get todos => _todos.where((todo) => todo.isDone == false).toList();
 
@@ -48,9 +27,11 @@ class TodosProvider extends ChangeNotifier {
     return todo.isDone;
   }
 
-  void updateTodo(Todo todo, String title, String description) {
+  void updateTodo(
+      Todo todo, String title, String description, DateTime selectedTime) {
     todo.title = title;
     todo.description = description;
+    todo.selectedTime = selectedTime;
 
     notifyListeners();
   }

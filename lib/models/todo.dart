@@ -8,6 +8,7 @@ class Todo {
   String description;
   String id;
   bool isDone;
+  DateTime? selectedTime;
 
   Todo({
     required this.createdTime,
@@ -15,5 +16,6 @@ class Todo {
     this.description = "",
     required this.id,
     this.isDone = false,
+    this.selectedTime,
   });
 }

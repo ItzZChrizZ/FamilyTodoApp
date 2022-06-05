@@ -9,24 +9,26 @@ class TodoFormWidget extends StatefulWidget {
   final ValueChanged<String> onChangedTitle;
   final ValueChanged<String> onChangedDescription;
   final VoidCallback onSavedTodo;
-  const TodoFormWidget(
-      {Key? key,
-      this.title,
-      this.description,
-      required this.onChangedTitle,
-      required this.onChangedDescription,
-      required this.onSavedTodo})
-      : super(key: key);
+  final DateTime? selectedTime;
+  final VoidCallback onSavedTime;
+
+  const TodoFormWidget({
+    Key? key,
+    this.title,
+    this.description,
+    required this.onChangedTitle,
+    required this.onChangedDescription,
+    required this.onSavedTodo,
+    this.selectedTime,
+    required this.onSavedTime,
+  }) : super(key: key);
 
   @override
   State<TodoFormWidget> createState() => _TodoFormWidgetState();
 }
 
 class _TodoFormWidgetState extends State<TodoFormWidget> {
-  DateTime selectedDate = DateTime.now();
-  final firstDate = DateTime(2021, 1);
-  final lastDate = DateTime(2030, 12);
-
+  DateTime date = DateTime.now();
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
         child: Column(
@@ -40,28 +42,17 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
             const SizedBox(
               height: 10,
             ),
-            Text(
-              "$selectedDate",
-              style: Constants.title,
+            buildDateTime(),
+            const SizedBox(
+              height: 10,
+            ),
+            buildSelectedTime(),
+            const SizedBox(
+              height: 10,
             ),
             buildSaveButton(),
             const SizedBox(
               height: 10.0,
-            ),
-            Container(
-              height: 45.0,
-              width: 150.0,
-              child: ElevatedButton(
-                onPressed: () => _openDatePicker(context),
-                child: Text(
-                  "DateTime",
-                  style: Constants.regulerTextWhite,
-                ),
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Constants.appBarColor),
-                ),
-              ),
             ),
           ],
         ),
@@ -129,17 +120,48 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
         ),
       );
 
-  _openDatePicker(BuildContext context) async {
-    final DateTime? date = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: firstDate,
-      lastDate: lastDate,
-    );
-    if (date != null) {
-      setState(() {
-        selectedDate = date;
-      });
-    }
-  }
+  buildSelectedTime() => Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 18.0,
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          width: 150.0,
+          height: 45.0,
+          child: ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Constants.appBarColor),
+            ),
+            onPressed: () async {
+              DateTime? newTime = await showDatePicker(
+                context: context,
+                initialDate: date,
+                firstDate: DateTime(2020),
+                lastDate: DateTime(2030),
+              );
+              if (newTime == null) return;
+              setState(() {
+                newTime = date;
+              });
+            },
+            child: Text(
+              "Select Time",
+              style: Constants.titleWhite,
+            ),
+          ),
+        ),
+      );
+
+  buildDateTime() => Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 18.0,
+        ),
+        child: Text(
+          "$date",
+          style: Constants.subTitle,
+        ),
+      );
 }

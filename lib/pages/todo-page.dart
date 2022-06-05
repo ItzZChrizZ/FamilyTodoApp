@@ -2,7 +2,7 @@
 
 import 'package:familytodoapp/constants.dart';
 import 'package:familytodoapp/database/provider.dart';
-import 'package:familytodoapp/models/todo-form-widget.dart';
+import 'package:familytodoapp/components/homepage/todo-form-widget.dart';
 import 'package:familytodoapp/models/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +18,8 @@ class _TodoPageState extends State<TodoPage> {
   String title = "";
   String description = "";
   final _formKey = GlobalKey<FormState>();
+
+  get selectedTime => null;
   @override
   Widget build(BuildContext context) => Form(
         key: _formKey,
@@ -37,6 +39,7 @@ class _TodoPageState extends State<TodoPage> {
                 onChangedDescription: (description) =>
                     setState(() => this.description = description),
                 onSavedTodo: addTodo,
+                onSavedTime: addTime,
               ),
             ],
           ),
@@ -56,6 +59,26 @@ class _TodoPageState extends State<TodoPage> {
         createdTime: DateTime.now(),
       );
 
+      final provider = Provider.of<TodosProvider>(context, listen: false);
+      provider.addTodo(todo);
+
+      Navigator.of(context).pop();
+    }
+  }
+
+  void addTime() {
+    final isValid = _formKey.currentState!.validate();
+
+    if (!isValid) {
+      return;
+    } else {
+      final todo = Todo(
+        id: DateTime.now().toString(),
+        title: title,
+        description: description,
+        createdTime: DateTime.now(),
+        selectedTime: selectedTime,
+      );
       final provider = Provider.of<TodosProvider>(context, listen: false);
       provider.addTodo(todo);
 

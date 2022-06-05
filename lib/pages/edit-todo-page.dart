@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:familytodoapp/constants.dart';
-import 'package:familytodoapp/models/todo-form-widget.dart';
+import 'package:familytodoapp/components/homepage/todo-form-widget.dart';
 import 'package:familytodoapp/models/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +20,8 @@ class _EditTodoPageState extends State<EditTodoPage> {
   final _formKey = GlobalKey<FormState>();
   String? title;
   String? description;
+
+  get selectedTime => null;
 
   @override
   void initState() {
@@ -63,6 +65,7 @@ class _EditTodoPageState extends State<EditTodoPage> {
                 this.description = description;
               }),
               onSavedTodo: saveTodo,
+              onSavedTime: saveTime,
             ),
           ),
         ),
@@ -75,8 +78,19 @@ class _EditTodoPageState extends State<EditTodoPage> {
       return;
     } else {
       final provider = Provider.of<TodosProvider>(context, listen: false);
-      provider.updateTodo(widget.todo, title!, description!);
+      provider.updateTodo(widget.todo, title!, description!, selectedTime!);
 
+      Navigator.pop(context);
+    }
+  }
+
+  void saveTime() {
+    final isValid = _formKey.currentState!.validate();
+    if (!isValid) {
+      return;
+    } else {
+      final provider = Provider.of<TodosProvider>(context, listen: false);
+      provider.updateTodo(widget.todo, title!, description!, selectedTime!);
       Navigator.pop(context);
     }
   }
