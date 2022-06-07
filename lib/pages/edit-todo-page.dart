@@ -65,7 +65,6 @@ class _EditTodoPageState extends State<EditTodoPage> {
                 this.description = description;
               }),
               onSavedTodo: saveTodo,
-              onSavedTime: saveTime,
             ),
           ),
         ),
@@ -78,19 +77,13 @@ class _EditTodoPageState extends State<EditTodoPage> {
       return;
     } else {
       final provider = Provider.of<TodosProvider>(context, listen: false);
-      provider.updateTodo(widget.todo, title!, description!, selectedTime!);
+      provider.updateTodo(
+        widget.todo,
+        title!,
+        description!,
+        selectedTime,
+      );
 
-      Navigator.pop(context);
-    }
-  }
-
-  void saveTime() {
-    final isValid = _formKey.currentState!.validate();
-    if (!isValid) {
-      return;
-    } else {
-      final provider = Provider.of<TodosProvider>(context, listen: false);
-      provider.updateTodo(widget.todo, title!, description!, selectedTime!);
       Navigator.pop(context);
     }
   }

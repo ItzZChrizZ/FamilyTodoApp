@@ -91,13 +91,13 @@ class TodoWidget extends StatelessWidget {
                           style: Constants.subTitle,
                         ),
                       ),
-                    Text(
-                      "${todo.selectedTime}",
-                      style: Constants.regulerText,
-                    ),
                   ],
                 ),
-              )
+              ),
+              Text(
+                "${todo.selectedTime}",
+                style: Constants.regulerText,
+              ),
             ],
           ),
         ),

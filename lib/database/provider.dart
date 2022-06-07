@@ -28,10 +28,10 @@ class TodosProvider extends ChangeNotifier {
   }
 
   void updateTodo(
-      Todo todo, String title, String description, DateTime selectedTime) {
+      Todo todo, String title, String description, selectedTime,) {
     todo.title = title;
     todo.description = description;
-    todo.selectedTime = selectedTime;
+    
 
     notifyListeners();
   }

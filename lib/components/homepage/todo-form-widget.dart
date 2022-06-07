@@ -8,9 +8,8 @@ class TodoFormWidget extends StatefulWidget {
   final String? description;
   final ValueChanged<String> onChangedTitle;
   final ValueChanged<String> onChangedDescription;
+  final DateTime? selectedDate;
   final VoidCallback onSavedTodo;
-  final DateTime? selectedTime;
-  final VoidCallback onSavedTime;
 
   const TodoFormWidget({
     Key? key,
@@ -19,8 +18,7 @@ class TodoFormWidget extends StatefulWidget {
     required this.onChangedTitle,
     required this.onChangedDescription,
     required this.onSavedTodo,
-    this.selectedTime,
-    required this.onSavedTime,
+    this.selectedDate,
   }) : super(key: key);
 
   @override
@@ -28,7 +26,8 @@ class TodoFormWidget extends StatefulWidget {
 }
 
 class _TodoFormWidgetState extends State<TodoFormWidget> {
-  DateTime date = DateTime.now();
+  DateTime? date;
+
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
         child: Column(
@@ -42,11 +41,11 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
             const SizedBox(
               height: 10,
             ),
-            buildDateTime(),
+            buildDateTimeText(),
             const SizedBox(
               height: 10,
             ),
-            buildSelectedTime(),
+            buildselectedDate(),
             const SizedBox(
               height: 10,
             ),
@@ -120,7 +119,7 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
         ),
       );
 
-  buildSelectedTime() => Padding(
+  buildselectedDate() => Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 10.0,
           horizontal: 18.0,
@@ -135,33 +134,44 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Constants.appBarColor),
             ),
-            onPressed: () async {
-              DateTime? newTime = await showDatePicker(
-                context: context,
-                initialDate: date,
-                firstDate: DateTime(2020),
-                lastDate: DateTime(2030),
-              );
-              if (newTime == null) return;
-              setState(() {
-                newTime = date;
-              });
-            },
+            onPressed: () => pickDate(context),
             child: Text(
-              "Select Time",
+              "Select Date",
               style: Constants.titleWhite,
             ),
           ),
         ),
       );
 
-  buildDateTime() => Padding(
+  pickDate(BuildContext context) async {
+    final initialDate = DateTime.now();
+    var newDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(DateTime.now().year - 5),
+      lastDate: DateTime(DateTime.now().year + 5),
+    );
+    if (newDate == null) return;
+    setState(() {
+      date = newDate;
+    });
+  }
+
+  buildDateTimeText() => Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 18.0,
         ),
         child: Text(
-          "$date",
+          getText(),
           style: Constants.subTitle,
         ),
       );
+
+  String getText() {
+    if (date == null) {
+      return "Select a date";
+    } else {
+      return "${date!.day}/${date!.month}/${date?.year}";
+    }
+  }
 }
