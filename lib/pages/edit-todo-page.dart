@@ -21,7 +21,7 @@ class _EditTodoPageState extends State<EditTodoPage> {
   String? title;
   String? description;
 
-  get selectedTime => null;
+  DateTime? selectedTime;
 
   @override
   void initState() {
@@ -29,6 +29,7 @@ class _EditTodoPageState extends State<EditTodoPage> {
 
     title = widget.todo.title;
     description = widget.todo.description;
+    selectedTime = widget.todo.selectedTime;
   }
 
   @override
@@ -56,6 +57,7 @@ class _EditTodoPageState extends State<EditTodoPage> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: TodoFormWidget(
+              selectedDate: selectedTime,
               title: title,
               description: description,
               onChangedTitle: (title) => setState(() {
@@ -64,7 +66,9 @@ class _EditTodoPageState extends State<EditTodoPage> {
               onChangedDescription: (description) => setState(() {
                 this.description = description;
               }),
-              onSavedTodo: saveTodo,
+              onSavedTodo: saveTodo, onChangedSelectedTime: (date) => setState(() {
+                selectedTime = date;
+              }),
             ),
           ),
         ),
@@ -81,7 +85,7 @@ class _EditTodoPageState extends State<EditTodoPage> {
         widget.todo,
         title!,
         description!,
-        selectedTime,
+        selectedTime!,
       );
 
       Navigator.pop(context);

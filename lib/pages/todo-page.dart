@@ -17,6 +17,7 @@ class TodoPage extends StatefulWidget {
 class _TodoPageState extends State<TodoPage> {
   String title = "";
   String description = "";
+  DateTime? selectedTime;
   DateTime? date;
   final _formKey = GlobalKey<FormState>();
 
@@ -39,6 +40,9 @@ class _TodoPageState extends State<TodoPage> {
                 onChangedDescription: (description) =>
                     setState(() => this.description = description),
                 onSavedTodo: addTodo,
+                onChangedSelectedTime: (date) => setState(() {
+                  selectedTime = date;
+                }),
               ),
             ],
           ),

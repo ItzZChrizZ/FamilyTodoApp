@@ -10,6 +10,7 @@ class TodoFormWidget extends StatefulWidget {
   final ValueChanged<String> onChangedDescription;
   final DateTime? selectedDate;
   final VoidCallback onSavedTodo;
+  final ValueChanged<DateTime> onChangedSelectedTime;
 
   const TodoFormWidget({
     Key? key,
@@ -18,7 +19,7 @@ class TodoFormWidget extends StatefulWidget {
     required this.onChangedTitle,
     required this.onChangedDescription,
     required this.onSavedTodo,
-    this.selectedDate,
+    this.selectedDate, required this.onChangedSelectedTime,
   }) : super(key: key);
 
   @override
