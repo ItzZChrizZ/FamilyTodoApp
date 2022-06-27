@@ -1,11 +1,12 @@
 import 'package:familytodoapp/pages/home-page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
-import 'database/provider.dart';
 
-void main(List<String> args) {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -14,16 +15,13 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => TodosProvider(),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: title,
-          theme: ThemeData(
-            textTheme: GoogleFonts.latoTextTheme(),
-            scaffoldBackgroundColor: Constants.backgroundColor,
-          ),
-          home: const HomePage(),
+  Widget build(BuildContext context) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: title,
+        theme: ThemeData(
+          textTheme: GoogleFonts.latoTextTheme(),
+          scaffoldBackgroundColor: Constants.backgroundColor,
         ),
+        home: const HomePage(),
       );
 }

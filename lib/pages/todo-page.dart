@@ -39,10 +39,10 @@ class _TodoPageState extends State<TodoPage> {
                 onChangedTitle: (title) => setState(() => this.title = title),
                 onChangedDescription: (description) =>
                     setState(() => this.description = description),
-                onSavedTodo: addTodo,
                 onChangedSelectedTime: (date) => setState(() {
                   selectedTime = date;
                 }),
+                onSavedTodo: addTodo,
               ),
             ],
           ),

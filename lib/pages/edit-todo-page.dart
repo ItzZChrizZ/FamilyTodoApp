@@ -66,9 +66,10 @@ class _EditTodoPageState extends State<EditTodoPage> {
               onChangedDescription: (description) => setState(() {
                 this.description = description;
               }),
-              onSavedTodo: saveTodo, onChangedSelectedTime: (date) => setState(() {
+              onChangedSelectedTime: (date) => setState(() {
                 selectedTime = date;
               }),
+              onSavedTodo: saveTodo,
             ),
           ),
         ),
